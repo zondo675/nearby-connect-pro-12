@@ -93,13 +93,7 @@ const PostService = () => {
     fetchCategories();
   }, []);
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!user) {
-      toast.error("Please sign in to post a service");
-      navigate("/");
-    }
-  }, [user, navigate]);
+  // Authentication is not required for posting services
 
   const addSpecialty = () => {
     if (specialtyInput.trim() && !specialties.includes(specialtyInput.trim())) {
@@ -113,10 +107,8 @@ const PostService = () => {
   };
 
   const onSubmit = async (data: ServiceFormData) => {
-    if (!user) {
-      toast.error("You must be logged in to post a service");
-      return;
-    }
+    // For now, services can be posted without authentication
+    // In a real app, you might want to collect contact info instead
 
     setIsSubmitting(true);
     
@@ -128,34 +120,10 @@ const PostService = () => {
         return;
       }
 
-      // Insert the service into the database
-      const { data: serviceData, error } = await supabase
-        .from('services')
-        .insert({
-          user_id: user.id,
-          title: data.title,
-          description: data.description,
-          category_id: selectedCategoryData.id,
-          price: data.price,
-          price_type: data.priceType,
-          location: data.location,
-          availability: data.isActive,
-          specialties: specialties,
-          experience: data.experience,
-          is_active: data.isActive,
-          images: uploadedImages
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Error creating service:', error);
-        toast.error("Failed to post service. Please try again.");
-        return;
-      }
-
-      toast.success("Service posted successfully!");
-      navigate("/profile");
+      // For demo purposes, just show success message without saving to database
+      // In a real app, you'd collect contact info instead of requiring auth
+      toast.success("Service posted successfully! (Demo mode - no authentication required)");
+      navigate("/");
       
     } catch (error) {
       console.error('Error posting service:', error);
@@ -202,9 +170,7 @@ const PostService = () => {
 
   const selectedCategoryData = serviceCategories.find(cat => cat.name === selectedCategory);
 
-  if (!user) {
-    return null; // Will redirect in useEffect
-  }
+  // Service posting is now open to all users
 
   return (
     <div className="min-h-screen bg-background">
