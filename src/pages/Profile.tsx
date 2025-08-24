@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { 
   User, 
-  MapPin, 
   Star, 
   Settings, 
   CreditCard, 
@@ -27,43 +25,35 @@ const Profile = () => {
   const { signOut } = useAuth();
   const [isProviderMode, setIsProviderMode] = useState(false);
   
-  // Mock user data
-  const user = {
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "New York, NY",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    rating: 4.8,
-    completedJobs: 23,
-    memberSince: "Jan 2024"
-  };
+  const { user } = useAuth();
 
   const handleLogout = async () => {
     await signOut();
     navigate("/home");
   };
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h3 className="text-lg font-medium mb-2">Sign in required</h3>
+          <p className="text-muted-foreground">Please sign in to access your profile</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <header className="bg-gradient-primary text-white p-6">
         <div className="flex items-center space-x-4">
-          <img
-            src={user.avatar}
-            alt={user.name}
-            className="w-20 h-20 rounded-full object-cover border-4 border-white/20"
-          />
+          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+            <User className="h-10 w-10 text-white" />
+          </div>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold">{user.name}</h1>
+            <h1 className="text-2xl font-bold">{user.email?.split('@')[0] || 'User'}</h1>
             <p className="opacity-90">{user.email}</p>
-            <div className="flex items-center space-x-4 mt-2">
-              <div className="flex items-center space-x-1">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-medium">{user.rating}</span>
-              </div>
-              <span className="text-sm opacity-75">Member since {user.memberSince}</span>
-            </div>
           </div>
           <Button variant="ghost" size="icon" className="text-white" onClick={() => navigate("/profile/edit")} aria-label="Edit profile">
             <Edit className="h-5 w-5" />
@@ -92,22 +82,6 @@ const Profile = () => {
             />
           </CardContent>
         </Card>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-4">
-          <Card>
-            <CardContent className="text-center p-4">
-              <div className="text-2xl font-bold text-primary">{user.completedJobs}</div>
-              <div className="text-sm text-muted-foreground">Jobs Completed</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="text-center p-4">
-              <div className="text-2xl font-bold text-secondary">4.8</div>
-              <div className="text-sm text-muted-foreground">Rating</div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Quick Actions */}
         <Card>
@@ -155,21 +129,6 @@ const Profile = () => {
               </div>
               <Button variant="ghost" size="sm" onClick={() => navigate("/profile/edit")}>
                 Edit
-              </Button>
-            </div>
-            
-            <Separator />
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-muted-foreground" />
-                <div>
-                  <span>Location</span>
-                  <p className="text-sm text-muted-foreground">{user.location}</p>
-                </div>
-              </div>
-              <Button variant="ghost" size="sm">
-                Change
               </Button>
             </div>
             

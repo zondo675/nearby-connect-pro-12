@@ -7,33 +7,8 @@ import { Input } from "@/components/ui/input";
 const MyChats = () => {
   const navigate = useNavigate();
 
-  // Mock chat data
-  const chats = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      lastMessage: "Thanks for the great plumbing work!",
-      time: "2 hours ago",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b820?w=150&h=150&fit=crop&crop=face",
-      unread: 2
-    },
-    {
-      id: 2,
-      name: "Mike Chen",
-      lastMessage: "When can you start the electrical work?",
-      time: "1 day ago",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      unread: 0
-    },
-    {
-      id: 3,
-      name: "Lisa Rodriguez",
-      lastMessage: "Perfect cleaning service, highly recommended!",
-      time: "3 days ago",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      unread: 0
-    }
-  ];
+  // TODO: Replace with real chat data from Supabase
+  const chats: any[] = [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,17 +39,23 @@ const MyChats = () => {
         </div>
 
         {/* Chat List */}
-        <div className="space-y-3">
-          {chats.map((chat) => (
+        {chats.length === 0 ? (
+          <div className="text-center py-12">
+            <MessageCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="font-semibold mb-2">No conversations yet</h3>
+            <p className="text-muted-foreground">
+              Your conversations with service providers will appear here.
+            </p>
+          </div>
+        ) : (
+          chats.map((chat) => (
             <Card key={chat.id} className="cursor-pointer hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="relative">
-                    <img
-                      src={chat.avatar}
-                      alt={chat.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                    <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+                      <MessageCircle className="h-6 w-6 text-muted-foreground" />
+                    </div>
                     {chat.unread > 0 && (
                       <div className="absolute -top-1 -right-1 bg-secondary text-secondary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {chat.unread}
@@ -91,8 +72,8 @@ const MyChats = () => {
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -6,36 +6,8 @@ import { ArrowLeft, Star } from "lucide-react";
 const MyReviews = () => {
   const navigate = useNavigate();
 
-  // Mock reviews data
-  const reviews = [
-    {
-      id: 1,
-      providerName: "John Smith",
-      service: "Plumbing",
-      rating: 5,
-      comment: "Excellent work! Fixed my kitchen sink perfectly and very professional.",
-      date: "March 15, 2024",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      id: 2,
-      providerName: "Maria Garcia", 
-      service: "House Cleaning",
-      rating: 4,
-      comment: "Great cleaning service, very thorough. Would recommend to others.",
-      date: "March 10, 2024",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b820?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      id: 3,
-      providerName: "David Lee",
-      service: "Electrical Work", 
-      rating: 5,
-      comment: "Quick response and solved the electrical issue efficiently. Very satisfied!",
-      date: "March 5, 2024",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-    }
-  ];
+  // TODO: Replace with real reviews data from Supabase
+  const reviews: any[] = [];
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -69,38 +41,7 @@ const MyReviews = () => {
       </header>
 
       <div className="p-4 space-y-4">
-        {reviews.map((review) => (
-          <Card key={review.id}>
-            <CardContent className="p-4">
-              <div className="space-y-3">
-                <div className="flex items-start space-x-4">
-                  <img
-                    src={review.avatar}
-                    alt={review.providerName}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold">{review.providerName}</h3>
-                        <p className="text-sm text-muted-foreground">{review.service}</p>
-                      </div>
-                      <span className="text-xs text-muted-foreground">{review.date}</span>
-                    </div>
-                    
-                    <div className="flex items-center space-x-1 mt-2">
-                      {renderStars(review.rating)}
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="text-sm leading-relaxed">{review.comment}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-        
-        {reviews.length === 0 && (
+        {reviews.length === 0 ? (
           <div className="text-center py-12">
             <Star className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="font-semibold mb-2">No reviews yet</h3>
@@ -108,6 +49,35 @@ const MyReviews = () => {
               Your reviews for service providers will appear here.
             </p>
           </div>
+        ) : (
+          reviews.map((review) => (
+            <Card key={review.id}>
+              <CardContent className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+                      <Star className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold">{review.providerName}</h3>
+                          <p className="text-sm text-muted-foreground">{review.service}</p>
+                        </div>
+                        <span className="text-xs text-muted-foreground">{review.date}</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-1 mt-2">
+                        {renderStars(review.rating)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm leading-relaxed">{review.comment}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))
         )}
       </div>
     </div>

@@ -7,24 +7,8 @@ import { Badge } from "@/components/ui/badge";
 
 const PaymentMethods = () => {
   const navigate = useNavigate();
-  const [paymentMethods] = useState([
-    {
-      id: 1,
-      type: "Visa",
-      last4: "4242",
-      expiryMonth: 12,
-      expiryYear: 2025,
-      isDefault: true
-    },
-    {
-      id: 2,
-      type: "Mastercard",
-      last4: "5555",
-      expiryMonth: 8,
-      expiryYear: 2026,
-      isDefault: false
-    }
-  ]);
+  // TODO: Replace with real payment methods data from Supabase
+  const [paymentMethods] = useState<any[]>([]);
 
   const getCardIcon = (type: string) => {
     return <CreditCard className="h-6 w-6" />;
@@ -66,9 +50,16 @@ const PaymentMethods = () => {
           </CardContent>
         </Card>
 
-        {/* Payment Methods List */}
-        <div className="space-y-3">
-          {paymentMethods.map((method) => (
+        {paymentMethods.length === 0 ? (
+          <div className="text-center py-8">
+            <CreditCard className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="font-semibold mb-2">No payment methods</h3>
+            <p className="text-muted-foreground">
+              Add a payment method to start using our services.
+            </p>
+          </div>
+        ) : (
+          paymentMethods.map((method) => (
             <Card key={method.id} className="relative">
               <CardContent className="p-4">
                 <div className="flex items-center space-x-4">
@@ -99,8 +90,8 @@ const PaymentMethods = () => {
                 </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
+          ))
+        )}
 
         {/* Security Info */}
         <Card className="bg-muted/50">
