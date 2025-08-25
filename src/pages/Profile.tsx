@@ -28,20 +28,12 @@ const Profile = () => {
   const { user } = useAuth();
 
   const handleLogout = async () => {
-    await signOut();
+    if (user) {
+      await signOut();
+    }
     navigate("/home");
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h3 className="text-lg font-medium mb-2">Sign in required</h3>
-          <p className="text-muted-foreground">Please sign in to access your profile</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -52,8 +44,8 @@ const Profile = () => {
             <User className="h-10 w-10 text-white" />
           </div>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold">{user.email?.split('@')[0] || 'User'}</h1>
-            <p className="opacity-90">{user.email}</p>
+            <h1 className="text-2xl font-bold">{user?.email?.split('@')[0] || 'Guest User'}</h1>
+            <p className="opacity-90">{user?.email || 'Not signed in'}</p>
           </div>
           <Button variant="ghost" size="icon" className="text-white" onClick={() => navigate("/profile/edit")} aria-label="Edit profile">
             <Edit className="h-5 w-5" />

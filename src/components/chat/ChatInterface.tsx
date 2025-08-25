@@ -60,21 +60,6 @@ const ChatInterface = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4 mx-auto">
-            <span className="text-2xl">💬</span>
-          </div>
-          <h3 className="text-lg font-medium mb-2">Sign in required</h3>
-          <p className="text-muted-foreground">
-            Please sign in to access conversations
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (

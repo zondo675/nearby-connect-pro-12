@@ -39,19 +39,6 @@ const ChatList = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <MessageSquarePlus className="h-12 w-12 text-muted-foreground mb-4 mx-auto" />
-          <h3 className="text-lg font-medium mb-2">Sign in required</h3>
-          <p className="text-muted-foreground">
-            Please sign in to access your messages
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
