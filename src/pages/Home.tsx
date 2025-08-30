@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "@/components/search/SearchBar";
+import BottomNav from "@/components/navigation/BottomNav";
 import { 
   Bell, 
   Search,
@@ -12,7 +13,9 @@ import {
   User,
   TrendingUp,
   Clock,
-  Award
+  Award,
+  Sparkles,
+  MapPin
 } from "lucide-react";
 import { serviceCategories } from "@/data/serviceCategories";
 
@@ -27,14 +30,23 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-primary text-white p-4 shadow-elevated">
+      <header className="bg-gradient-hero text-white p-4 shadow-elevated">
         <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-lg font-bold">Good morning! 👋</h1>
-            <p className="text-sm opacity-90">Find services near you</p>
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+              <Sparkles className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">Good morning! 👋</h1>
+              <div className="flex items-center space-x-1 text-sm opacity-90">
+                <MapPin className="h-4 w-4" />
+                <span>New York, NY</span>
+              </div>
+            </div>
           </div>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 relative">
             <Bell className="h-5 w-5" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full" />
           </Button>
         </div>
         
@@ -155,81 +167,59 @@ const Home = () => {
 
         {/* Get Started Section */}
         <section>
-          <Card>
+          <Card className="bg-gradient-surface border border-primary/10">
             <CardHeader>
-              <CardTitle>New to the Platform?</CardTitle>
+              <CardTitle className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+                  <Sparkles className="h-4 w-4 text-white" />
+                </div>
+                <span>New to ServiceHub?</span>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Search className="h-4 w-4 text-primary" />
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 gap-3">
+                <div className="flex items-center space-x-3 p-3 bg-white/50 rounded-lg">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Search className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">Find Services</p>
+                    <p className="text-xs text-muted-foreground">Browse categories and find what you need</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-sm">Find Services</p>
-                  <p className="text-xs text-muted-foreground">Browse categories and find what you need</p>
+                
+                <div className="flex items-center space-x-3 p-3 bg-white/50 rounded-lg">
+                  <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center">
+                    <Plus className="h-5 w-5 text-secondary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">Offer Services</p>
+                    <p className="text-xs text-muted-foreground">Share your skills and get hired</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 bg-white/50 rounded-lg">
+                  <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                    <MessageCircle className="h-5 w-5 text-accent" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">Connect</p>
+                    <p className="text-xs text-muted-foreground">Chat with providers and customers</p>
+                  </div>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center">
-                  <Plus className="h-4 w-4 text-secondary" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm">Offer Services</p>
-                  <p className="text-xs text-muted-foreground">Share your skills and get hired</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
-                  <MessageCircle className="h-4 w-4 text-accent" />
-                </div>
-                <div>
-                  <p className="font-medium text-sm">Connect</p>
-                  <p className="text-xs text-muted-foreground">Chat with providers and customers</p>
-                </div>
-              </div>
+              <Button className="w-full mt-4 bg-gradient-accent hover:shadow-glow transition-all duration-300">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Get Started Now
+              </Button>
             </CardContent>
           </Card>
         </section>
       </div>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-elevated">
-        <div className="flex items-center justify-around py-2">
-          <Button variant="ghost" className="flex flex-col items-center space-y-1 text-primary">
-            <Search className="h-5 w-5" />
-            <span className="text-xs">Home</span>
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            className="flex flex-col items-center space-y-1"
-            onClick={() => navigate("/chat")}
-          >
-            <MessageCircle className="h-5 w-5" />
-            <span className="text-xs">Chat</span>
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            className="flex flex-col items-center space-y-1"
-            onClick={() => navigate("/post-service")}
-          >
-            <Plus className="h-5 w-5" />
-            <span className="text-xs">Post</span>
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            className="flex flex-col items-center space-y-1"
-            onClick={() => navigate("/profile")}
-          >
-            <User className="h-5 w-5" />
-            <span className="text-xs">Profile</span>
-          </Button>
-        </div>
-      </nav>
+      {/* Add bottom navigation */}
+      <BottomNav />
     </div>
   );
 };
