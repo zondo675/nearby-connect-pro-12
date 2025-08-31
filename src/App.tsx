@@ -9,6 +9,7 @@ import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import PostService from "./pages/PostService";
 import Login from "./pages/Login";
+import InstagramLogin from "./pages/InstagramLogin";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Splash from "./pages/Splash";
@@ -45,6 +46,7 @@ const App = () => {
           {/* Public routes */}
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/instagram-login" element={<InstagramLogin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/language-selection" element={<LanguageSelection />} />
