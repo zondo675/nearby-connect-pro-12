@@ -8,7 +8,9 @@ import { useAuth } from "./hooks/useAuth";
 // Pages
 import Home from "./pages/Home";
 import PostService from "./pages/PostService";
-
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import Splash from "./pages/Splash";
 import LanguageSelection from "./pages/LanguageSelection";
 import LocationPermission from "./pages/LocationPermission";
@@ -42,6 +44,9 @@ const App = () => {
         <Routes>
           {/* Public routes */}
           <Route path="/splash" element={<Splash />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/language-selection" element={<LanguageSelection />} />
           <Route path="/location-permission" element={<LocationPermission />} />
           
