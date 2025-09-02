@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { AuthGuard } from "./components/auth/AuthGuard";
 
 // Pages
 import Home from "./pages/Home";
@@ -46,9 +46,17 @@ const App = () => {
         <Routes>
           {/* Public routes */}
           <Route path="/splash" element={<Splash />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={
+            <AuthGuard requireAuth={false}>
+              <Login />
+            </AuthGuard>
+          } />
           <Route path="/instagram-login" element={<InstagramLogin />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={
+            <AuthGuard requireAuth={false}>
+              <Signup />
+            </AuthGuard>
+          } />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/language-selection" element={<LanguageSelection />} />
           <Route path="/location-permission" element={<LocationPermission />} />
@@ -60,8 +68,16 @@ const App = () => {
           <Route path="/categories/:type" element={<CategoryListing />} />
           <Route path="/services/:category" element={<ServiceListing />} />
           <Route path="/service-details/:id" element={<ServiceDetails />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/edit" element={<ProfileEdit />} />
+          <Route path="/profile" element={
+            <AuthGuard>
+              <Profile />
+            </AuthGuard>
+          } />
+          <Route path="/profile/edit" element={
+            <AuthGuard>
+              <ProfileEdit />
+            </AuthGuard>
+          } />
           <Route path="/post-service" element={<PostService />} />
           
           {/* Chat routes */}

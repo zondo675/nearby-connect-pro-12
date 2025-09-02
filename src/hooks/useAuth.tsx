@@ -9,6 +9,7 @@ interface AuthContextType {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
+  signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -103,7 +104,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const redirectUrl = `${window.location.origin}/`;
+    const redirectUrl = `${window.location.origin}/profile`;
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -126,6 +127,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast({
         title: "Account Created",
         description: "Please check your email to verify your account.",
+      });
+    }
+    
+    return { error };
+  };
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/profile`,
+      }
+    });
+    
+    if (error) {
+      toast({
+        title: "Google Sign In Failed",
+        description: error.message,
+        variant: "destructive",
       });
     }
     
@@ -160,6 +180,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
   };
 

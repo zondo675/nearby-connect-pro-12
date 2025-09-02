@@ -1,6 +1,7 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SearchBar from "@/components/search/SearchBar";
@@ -21,6 +22,7 @@ import { serviceCategories } from "@/data/serviceCategories";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleCategoryClick = () => {
@@ -44,10 +46,26 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 relative">
-            <Bell className="h-5 w-5" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full" />
-          </Button>
+          {user ? (
+            <Link to="/profile">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+          ) : (
+            <div className="flex space-x-2">
+              <Link to="/login">
+                <Button variant="ghost" className="text-white hover:bg-white/20">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button variant="secondary" className="bg-white text-primary hover:bg-white/90">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
         
         {/* Enhanced Search Bar */}
