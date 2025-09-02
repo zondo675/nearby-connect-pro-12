@@ -33,6 +33,7 @@ import NotFound from "./pages/NotFound";
 import ChatList from "./components/chat/ChatList";
 import ChatInterface from "./components/chat/ChatInterface";
 import MessageRequests from "./components/chat/MessageRequests";
+import BottomNav from "./components/navigation/BottomNav";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +82,7 @@ const App = () => {
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <BottomNav />
       </TooltipProvider>
     </QueryClientProvider>
   );
