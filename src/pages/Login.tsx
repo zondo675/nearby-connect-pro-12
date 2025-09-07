@@ -227,18 +227,18 @@ const Login = () => {
           </CardContent>
         </Card>
 
-        {/* Sign Up Link */}
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">
-            Don't have an account?{' '}
-            <Link
-              to="/signup"
-              className="text-primary hover:text-primary/80 font-medium"
-            >
-              Sign up
-            </Link>
-          </p>
-        </div>
+                {/* Sign Up Link */}
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Don't have an account?{' '}
+                    <Link
+                      to="/signup"
+                      className="text-primary hover:text-primary/80 font-medium"
+                    >
+                      Create account
+                    </Link>
+                  </p>
+                </div>
       </div>
     </div>
   );
