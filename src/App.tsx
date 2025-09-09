@@ -33,6 +33,8 @@ import NotFound from "./pages/NotFound";
 import ChatList from "./components/chat/ChatList";
 import ChatInterface from "./components/chat/ChatInterface";
 import MessageRequests from "./components/chat/MessageRequests";
+import DirectChat from "./pages/DirectChat";
+import DirectChatList from "./pages/DirectChatList";
 import BottomNav from "./components/navigation/BottomNav";
 
 const queryClient = new QueryClient();
@@ -85,6 +87,8 @@ const App = () => {
           <Route path="/chat/:id" element={<ChatInterface />} />
           <Route path="/message-requests" element={<MessageRequests />} />
           <Route path="/profile/chats" element={<MyChats />} />
+          <Route path="/direct-messages" element={<DirectChatList />} />
+          <Route path="/direct-chat/:userId" element={<DirectChat />} />
           
           {/* Profile settings routes */}
           <Route path="/profile/reviews" element={<MyReviews />} />

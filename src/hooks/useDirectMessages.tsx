@@ -33,19 +33,29 @@ export const useDirectMessages = (receiverId: string | null) => {
       try {
         const { data, error } = await supabase
           .from('direct_messages')
-          .select(`
-            *,
-            sender:profiles!direct_messages_sender_id_fkey(
-              id,
-              full_name,
-              avatar_url
-            )
-          `)
+          .select('*')
           .or(`and(sender_id.eq.${user.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${user.id})`)
           .order('timestamp', { ascending: true });
 
         if (error) throw error;
-        setMessages(data || []);
+        
+        // Fetch sender profiles separately to avoid relation issues
+        const messagesWithSenders = await Promise.all(
+          (data || []).map(async (msg) => {
+            const { data: senderData } = await supabase
+              .from('profiles')
+              .select('id, full_name, avatar_url')
+              .eq('id', msg.sender_id)
+              .single();
+            
+            return {
+              ...msg,
+              sender: senderData || undefined
+            } as DirectMessage;
+          })
+        );
+        
+        setMessages(messagesWithSenders);
       } catch (error) {
         console.error('Error fetching messages:', error);
       } finally {
