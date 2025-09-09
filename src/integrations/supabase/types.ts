@@ -133,6 +133,36 @@ export type Database = {
         }
         Relationships: []
       }
+      direct_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_read: boolean
+          receiver_id: string
+          sender_id: string
+          timestamp: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          receiver_id: string
+          sender_id: string
+          timestamp?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          receiver_id?: string
+          sender_id?: string
+          timestamp?: string
+        }
+        Relationships: []
+      }
       message_requests: {
         Row: {
           created_at: string
