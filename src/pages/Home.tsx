@@ -15,8 +15,7 @@ import {
   TrendingUp,
   Clock,
   Award,
-  Sparkles,
-  MapPin
+  Sparkles
 } from "lucide-react";
 import { serviceCategories } from "@/data/serviceCategories";
 
@@ -39,11 +38,8 @@ const Home = () => {
               <Sparkles className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">Good morning! 👋</h1>
-              <div className="flex items-center space-x-1 text-sm opacity-90">
-                <MapPin className="h-4 w-4" />
-                <span>New York, NY</span>
-              </div>
+              <h1 className="text-xl font-bold">Welcome to ServiceHub</h1>
+              <p className="text-sm opacity-90">Find trusted services in your area</p>
             </div>
           </div>
           {user ? (
@@ -74,18 +70,6 @@ const Home = () => {
           onChange={setSearchTerm}
           onFilterClick={() => navigate("/categories")}
           placeholder="Search for services..."
-          suggestions={[
-            "Emergency plumbing",
-            "House cleaning",
-            "Math tutoring",
-            "Photography services",
-            "Personal training",
-            "Computer repair"
-          ]}
-          onSuggestionClick={(suggestion) => {
-            setSearchTerm(suggestion);
-            navigate("/categories");
-          }}
         />
       </header>
 
@@ -158,19 +142,10 @@ const Home = () => {
                 <p className="text-muted-foreground">
                   Connect with skilled professionals and grow your business
                 </p>
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-primary">2.5K+</div>
-                    <div className="text-xs text-muted-foreground">Providers</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-secondary">50K+</div>
-                    <div className="text-xs text-muted-foreground">Services</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-accent">4.9</div>
-                    <div className="text-xs text-muted-foreground">Avg Rating</div>
-                  </div>
+                <div className="text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Ready to get started? Create your profile and begin offering your services today.
+                  </p>
                 </div>
                 <Button 
                   onClick={() => navigate("/post-service")} 
