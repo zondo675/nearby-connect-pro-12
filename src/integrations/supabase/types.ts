@@ -698,6 +698,21 @@ export type Database = {
           phone: string
         }[]
       }
+      get_public_profile: {
+        Args: { user_id: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          created_at: string
+          full_name: string
+          id: string
+          is_online: boolean
+          is_provider: boolean
+          last_seen: string
+          location: string
+          rating: number
+        }[]
+      }
       get_public_provider_info: {
         Args: { provider_id: string }
         Returns: {
@@ -718,6 +733,20 @@ export type Database = {
           full_name: string
           location: string
           phone: string
+        }[]
+      }
+      search_user_profiles: {
+        Args: { search_term: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          full_name: string
+          id: string
+          is_online: boolean
+          is_provider: boolean
+          last_seen: string
+          location: string
+          rating: number
         }[]
       }
       update_payment_status: {

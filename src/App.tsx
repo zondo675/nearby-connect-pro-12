@@ -29,6 +29,7 @@ import NotificationSettings from "./pages/NotificationSettings";
 import PrivacySettings from "./pages/PrivacySettings";
 import AppSettings from "./pages/AppSettings";
 import HelpCenter from "./pages/HelpCenter";
+import UserSearch from "./pages/UserSearch";
 import NotFound from "./pages/NotFound";
 import ChatList from "./components/chat/ChatList";
 import ChatInterface from "./components/chat/ChatInterface";
@@ -98,6 +99,7 @@ const App = () => {
           <Route path="/profile/privacy" element={<PrivacySettings />} />
           <Route path="/profile/app-settings" element={<AppSettings />} />
           <Route path="/profile/help" element={<HelpCenter />} />
+          <Route path="/user-search" element={<UserSearch />} />
           
           {/* 404 */}
           <Route path="*" element={<NotFound />} />

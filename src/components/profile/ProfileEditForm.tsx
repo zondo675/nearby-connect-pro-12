@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Camera, Loader2, Save } from 'lucide-react';
+import { AvatarUpload } from '@/components/profile/AvatarUpload';
+import { Save, Loader2 } from 'lucide-react';
 import { useProfile } from '@/hooks/useProfile';
 
 interface ProfileEditFormProps {
@@ -13,41 +13,18 @@ interface ProfileEditFormProps {
 }
 
 export const ProfileEditForm = ({ onSave }: ProfileEditFormProps) => {
-  const { profile, updateProfile, uploadAvatar } = useProfile();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const { profile, updateProfile } = useProfile();
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || '',
     bio: profile?.bio || '',
     phone: profile?.phone || '',
     location: profile?.location || '',
+    avatar_url: profile?.avatar_url || '',
   });
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleImageUpload = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      return;
-    }
-
-    setIsUploading(true);
-    try {
-      await uploadAvatar(file);
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      handleImageUpload(file);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,10 +41,6 @@ export const ProfileEditForm = ({ onSave }: ProfileEditFormProps) => {
     }
   };
 
-  const getInitials = (name: string | null) => {
-    if (!name) return 'U';
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
 
   return (
     <Card>
@@ -77,35 +50,12 @@ export const ProfileEditForm = ({ onSave }: ProfileEditFormProps) => {
       <CardContent className="space-y-6">
         {/* Avatar Upload */}
         <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Avatar className="w-20 h-20">
-              <AvatarImage src={profile?.avatar_url || undefined} alt={profile?.full_name || 'User'} />
-              <AvatarFallback className="text-lg font-bold">
-                {getInitials(profile?.full_name)}
-              </AvatarFallback>
-            </Avatar>
-            <Button
-              type="button"
-              size="icon"
-              variant="secondary"
-              className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading}
-            >
-              {isUploading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Camera className="h-4 w-4" />
-              )}
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </div>
+          <AvatarUpload
+            currentAvatarUrl={formData.avatar_url}
+            userName={formData.full_name}
+            onAvatarChange={(url) => handleInputChange('avatar_url', url)}
+            size="md"
+          />
           <div>
             <h3 className="font-medium">Profile Picture</h3>
             <p className="text-sm text-muted-foreground">

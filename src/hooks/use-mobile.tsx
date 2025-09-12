@@ -17,3 +17,10 @@ export function useIsMobile() {
 
   return !!isMobile
 }
+
+export function useDebounce(callback: () => void, deps: any[], delay: number) {
+  React.useEffect(() => {
+    const timeoutId = setTimeout(callback, delay);
+    return () => clearTimeout(timeoutId);
+  }, [...deps, delay]);
+}

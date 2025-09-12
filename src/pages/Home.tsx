@@ -15,7 +15,8 @@ import {
   TrendingUp,
   Clock,
   Award,
-  Sparkles
+  Sparkles,
+  Users
 } from "lucide-react";
 import { serviceCategories } from "@/data/serviceCategories";
 
@@ -90,6 +91,15 @@ const Home = () => {
               <CardContent className="p-4 text-center">
                 <Plus className="h-6 w-6 text-secondary mx-auto mb-2" />
                 <p className="font-medium text-sm">Post Your Service</p>
+              </CardContent>
+            </Card>
+            <Card 
+              className="cursor-pointer hover:shadow-soft transition-all hover:scale-[1.02] bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20"
+              onClick={() => navigate("/user-search")}
+            >
+              <CardContent className="p-4 text-center">
+                <Users className="h-6 w-6 text-accent mx-auto mb-2" />
+                <p className="font-medium text-sm">Find Users</p>
               </CardContent>
             </Card>
           </div>

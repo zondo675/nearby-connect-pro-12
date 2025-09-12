@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MessageCircle } from 'lucide-react';
 import {
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUserSearch } from '@/hooks/useUserSearch';
+import { useDebounce } from '@/hooks/use-mobile';
 
 interface UserSearchDialogProps {
   open: boolean;
@@ -23,7 +24,15 @@ export const UserSearchDialog: React.FC<UserSearchDialogProps> = ({
   onOpenChange,
 }) => {
   const navigate = useNavigate();
-  const { users, loading, searchQuery, setSearchQuery } = useUserSearch();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { searchUsers, results, loading } = useUserSearch();
+  
+  // Debounce search to avoid too many API calls
+  useDebounce(() => {
+    if (searchQuery.trim()) {
+      searchUsers(searchQuery);
+    }
+  }, [searchQuery], 500);
 
   const handleStartChat = (userId: string) => {
     navigate(`/direct-chat/${userId}`);
@@ -61,16 +70,16 @@ export const UserSearchDialog: React.FC<UserSearchDialogProps> = ({
                   <Skeleton className="h-8 w-8 rounded" />
                 </div>
               ))
-            ) : users.length === 0 && searchQuery ? (
+            ) : results.length === 0 && searchQuery ? (
               <div className="text-center py-6 text-muted-foreground">
                 <p>No users found</p>
               </div>
-            ) : users.length === 0 ? (
+            ) : results.length === 0 ? (
               <div className="text-center py-6 text-muted-foreground">
                 <p>Start typing to search for users</p>
               </div>
             ) : (
-              users.map((user) => (
+              results.map((user) => (
                 <div
                   key={user.id}
                   className="flex items-center space-x-3 p-3 rounded-lg border hover:bg-muted/50 transition-colors"
