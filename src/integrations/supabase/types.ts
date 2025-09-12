@@ -682,6 +682,15 @@ export type Database = {
         Args: { other_user_id: string }
         Returns: string
       }
+      create_payment: {
+        Args: {
+          p_amount: number
+          p_booking_id: string
+          p_payment_method?: Database["public"]["Enums"]["payment_method"]
+          p_transaction_id?: string
+        }
+        Returns: string
+      }
       get_provider_contact: {
         Args: { provider_id: string }
         Returns: {
@@ -710,6 +719,14 @@ export type Database = {
           location: string
           phone: string
         }[]
+      }
+      update_payment_status: {
+        Args: {
+          p_payment_id: string
+          p_status: Database["public"]["Enums"]["payment_status"]
+          p_transaction_id?: string
+        }
+        Returns: boolean
       }
     }
     Enums: {
