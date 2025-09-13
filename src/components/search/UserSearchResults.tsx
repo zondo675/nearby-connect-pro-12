@@ -19,7 +19,7 @@ export const UserSearchResults = ({ results, onUserSelect }: UserSearchResultsPr
   };
 
   const handleViewProfile = (user: UserProfile) => {
-    onUserSelect?.(user);
+    navigate(`/profile/${user.id}`);
   };
 
   if (results.length === 0) {

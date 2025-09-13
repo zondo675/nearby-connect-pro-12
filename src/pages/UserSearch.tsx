@@ -21,8 +21,8 @@ export default function UserSearch() {
   }, [searchTerm], 500);
 
   const handleUserSelect = (user: UserProfile) => {
-    // For now, just navigate to direct chat
-    navigate(`/direct-chat?userId=${user.id}`);
+    // Navigate to user's profile page
+    navigate(`/profile/${user.id}`);
   };
 
   return (
