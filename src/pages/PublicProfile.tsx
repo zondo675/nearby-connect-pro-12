@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, MessageCircle, MapPin, Star, Clock } from "lucide-react";
+import { ArrowLeft, MessageCircle, MapPin, Star, Clock, Package, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 import { useUserSearch, UserProfile } from "@/hooks/useUserSearch";
+import { useUserServices } from "@/hooks/useUserServices";
 import { useToast } from "@/hooks/use-toast";
 
 export default function PublicProfile() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const { getPublicProfile } = useUserSearch();
+  const { services, loading: servicesLoading } = useUserServices(userId);
   const { toast } = useToast();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -198,9 +201,95 @@ export default function PublicProfile() {
                   </span>
                 </div>
               )}
+
+              {/* Provider stats */}
+              {profile.is_provider && (
+                <>
+                  <Separator />
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                      <div className="text-lg font-semibold">{services.length}</div>
+                      <div className="text-xs text-muted-foreground">Services</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-semibold">{profile.rating.toFixed(1)}</div>
+                      <div className="text-xs text-muted-foreground">Rating</div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
+
+        {/* Services Section */}
+        {profile.is_provider && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Package className="h-5 w-5 text-primary" />
+                <span>Services Offered</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {servicesLoading ? (
+                <div className="space-y-4">
+                  {[...Array(2)].map((_, i) => (
+                    <div key={i} className="space-y-2">
+                      <Skeleton className="h-4 w-3/4" />
+                      <Skeleton className="h-3 w-full" />
+                      <Skeleton className="h-3 w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              ) : services.length > 0 ? (
+                <div className="space-y-4">
+                  {services.map((service) => (
+                    <div key={service.id} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-medium text-foreground">{service.title}</h4>
+                          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                            {service.description}
+                          </p>
+                        </div>
+                        <Badge variant="outline" className="ml-2 shrink-0">
+                          {service.category?.name}
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center space-x-4 text-muted-foreground">
+                          {service.location && (
+                            <div className="flex items-center space-x-1">
+                              <MapPin className="h-3 w-3" />
+                              <span>{service.location}</span>
+                            </div>
+                          )}
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="h-3 w-3" />
+                            <span>{new Date(service.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        
+                        {service.price && (
+                          <div className="font-medium text-foreground">
+                            ₹{service.price}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-6 text-muted-foreground">
+                  <Package className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <p>No services available</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Chat Button */}
         <Button
