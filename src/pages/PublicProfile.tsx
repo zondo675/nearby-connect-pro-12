@@ -154,11 +154,6 @@ export default function PublicProfile() {
                   )}
                 </div>
                 
-                {/* User ID */}
-                <div className="text-xs text-muted-foreground font-mono bg-muted/50 rounded px-2 py-1 inline-block">
-                  ID: {profile.id}
-                </div>
-                
                 <div className="flex items-center justify-center space-x-1 text-sm">
                   <div className={`h-2 w-2 rounded-full ${profile.is_online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                   <span className="text-muted-foreground">
